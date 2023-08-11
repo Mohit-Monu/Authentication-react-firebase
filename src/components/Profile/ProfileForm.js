@@ -1,8 +1,11 @@
 import { useContext, useRef } from 'react';
 import classes from './ProfileForm.module.css';
 import AuthContext from "../../store/auth-context"
+import { useHistory } from "react-router-dom";
 
 const ProfileForm = () => {
+  const history=useHistory()
+
   const AuthCtx=useContext(AuthContext)
   const password=useRef("")
   async function ChangePasswordHandler(e){
@@ -24,8 +27,8 @@ const ProfileForm = () => {
       if(!response.ok){
         throw new Error(data)
       }else{
-        console.log(data.idToken)
-        AuthCtx.token(data.idToken)
+        AuthCtx.login(data.idToken)
+        history.replace("/")
       }
     }catch(err){
       alert(err)
