@@ -1,8 +1,8 @@
-import { useState, useRef } from "react";
-
+import { useState, useRef, useContext } from "react";
 import classes from "./AuthForm.module.css";
-
+import AuthContext from "../../store/auth-context"
 const AuthForm = (props) => {
+  const AuthCtx=useContext(AuthContext)
   const [isLogin, setIsLogin] = useState(true);
   const [isLoading, setIsLoading] = useState();
   const email = useRef("");
@@ -66,7 +66,7 @@ const AuthForm = (props) => {
         if (!response.ok) {
           throw new Error(data.error.message);
         } else {
-          console.log(data.idToken);
+          AuthCtx.login(data.idToken)
           setIsLoading(false);
         }
       } catch (err) {
