@@ -7,9 +7,7 @@ import { AuthContextProvider } from "./store/auth-context";
 import AuthContext from "./store/auth-context";
 import { useContext } from "react";
 function App() {
-  const token = localStorage.getItem("token")
-  console.log(token)
-  const AuthCtx = useContext(AuthContext);
+  const authCtx = useContext(AuthContext);
   return (
     <AuthContextProvider>
       <Layout>
@@ -17,17 +15,15 @@ function App() {
           <Route path="/" exact>
             <HomePage />
           </Route>
-          {!token && (
+          {!authCtx.isLoggedIn && (
             <Route path="/auth">
               <AuthPage />
             </Route>
           )}
+            {authCtx.isLoggedIn && 
             <Route path="/profile">
-            {token &&  <UserProfile/>}
-            {!token && <Redirect to="/"></Redirect>}
-              
-            </Route>
-
+              <UserProfile/>
+            </Route>}
           <Route path="*">
             <Redirect to="/"></Redirect>
           </Route>
